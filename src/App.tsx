@@ -1,24 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ITodos } from './types/types';
 
-function App() {
+const App: React.FC = () => {
+  const [todos, setTodos] = React.useState<ITodos[]>([])
+  const [value, setValue] = React.useState('')
+  const addTodo = () => {
+    if (value) {
+      setTodos([...todos, {
+        id: Date.now(),
+        title: value,
+        completed: false,
+      }])
+      setValue('')
+    }
+
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input value={value} onChange={e => setValue(e.target.value)} type="text" />
+      <button onClick={addTodo}>Add</button>
+      {todos?.map(item => <span>{item.title}</span>)}
     </div>
   );
 }
